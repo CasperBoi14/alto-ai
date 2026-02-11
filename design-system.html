@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alto AI - Design System</title>
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            --background: #09090b;
+            --foreground: #fafafa;
+            --card: #09090b;
+            --card-foreground: #fafafa;
+            --popover: #09090b;
+            --popover-foreground: #fafafa;
+            --primary: #fafafa;
+            --primary-foreground: #18181b;
+            --secondary: #27272a;
+            --secondary-foreground: #fafafa;
+            --muted: #27272a;
+            --muted-foreground: #a1a1aa;
+            --accent: #27272a;
+            --accent-foreground: #fafafa;
+            --destructive: #7f1d1d;
+            --destructive-foreground: #fafafa;
+            --border: #27272a;
+            --input: #27272a;
+            --ring: #d4d4d8;
+            --radius: 0.5rem;
+            --success: #22c55e;
+            --warning: #eab308;
+            --info: #3b82f6;
+        }
+
+        /* ===== Reset & Base ===== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== Layout ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--foreground);
+        }
+
+        .section-description {
+            color: var(--muted-foreground);
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .component-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .component-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .component-card:hover {
+            border-color: var(--muted-foreground);
+        }
+
+        .component-label {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        /* ===== Header ===== */
+        .header {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--muted-foreground);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--foreground), var(--muted-foreground));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .header p {
+            color: var(--muted-foreground);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.7s ease;
+        }
+
+        /* ===== Typography ===== */
+        .typography h1 { font-size: 2.25rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem; }
+        .typography h2 { font-size: 1.875rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.5rem; }
+        .typography h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; }
+        .typography h4 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; }
+        .typography p { font-size: 1rem; line-height: 1.7; color: var(--muted-foreground); margin-bottom: 0.5rem; }
+        .typography .text-sm { font-size: 0.875rem; }
+        .typography .text-xs { font-size: 0.75rem; }
+        .typography .text-muted { color: var(--muted-foreground); }
+        .typography code {
+            background: var(--secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+
+        /* ===== Buttons ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .btn-primary:hover {
+            background: rgba(250, 250, 250, 0.9);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--foreground);
+        }
+
+        .btn-ghost:hover {
+            background: var(--accent);
+        }
+
+        .btn-destructive {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-destructive:hover {
+            background: #b91c1c;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--primary-foreground);
+        }
+
+        .btn-success:hover {
+            background: #16a34a;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        .btn-loading.btn-primary::after {
+            border-color: var(--primary-foreground);
+            border-right-color: transparent;
+        }
+
+        /* ===== Inputs ===== */
+        .input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            background: var(--background);
+            border: 1px solid var(--input);
+            border-radius: var(--radius);
+            color: var(--foreground);
+            transition: all 0.2s ease;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--ring);
+            box-shadow: 0 0 0 2px rgba(212, 212, 216, 0.1);
+        }
+
+        .input::placeholder {
+            color: var(--muted-foreground);
+        }
+
+        .input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .input-error {
+            border-color: #dc2626;
+        }
+
+        .input-error:focus {
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+
+        /* ===== Textarea ===== */
+        .textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            background: var(--background);
+            border: 1px solid var(--input);
+            border-radius: var(--radius);
+            color: var(--foreground);
+            resize: vertical;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .textarea:focus {
+            outline: none;
+            border-color: var(--ring);
+            box-shadow: 0 0 0 2px rgba(212, 212, 216, 0.1);
+        }
+
+        /* ===== Label ===== */
+        .label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--foreground);
+        }
+
+        .label-required::after {
+            content: ' *';
+            color: #dc2626;
+        }
+
+        /* ===== Form Group ===== */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-hint {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+            margin-top: 0.25rem;
+        }
+
+        .form-error {
+            font-size: 0.75rem;
+            color: #dc2626;
+            margin-top: 0.25rem;
+        }
+
+        /* ===== Select ===== */
+        .select {
+            width: 100%;
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            background: var(--background);
+            border: 1px solid var(--input);
+            border-radius: var(--radius);
+            color: var(--foreground);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%23a1a1aa' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            transition: all 0.2s ease;
+        }
+
+        .select:focus {
+            outline: none;
+            border-color: var(--ring);
+            box-shadow: 0 0 0 2px rgba(212, 212, 216, 0.1);
+        }
+
+        /* ===== Checkbox & Radio ===== */
+        .checkbox-wrapper,
+        .radio-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox,
+        .radio {
+            width: 1rem;
+            height: 1rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            appearance: none;
+        }
+
+        .checkbox {
+            border-radius: 0.25rem;
+        }
+
+        .radio {
+            border-radius: 50%;
+        }
+
+        .checkbox:checked,
+        .radio:checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .checkbox:checked::after {
+            content: '';
+            display: block;
+            width: 0.25rem;
+            height: 0.5rem;
+            border: solid var(--primary-foreground);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) translate(-50%, -50%);
+            position: relative;
+            left: 50%;
+            top: 40%;
+        }
+
+        .radio:checked::after {
+            content: '';
+            display: block;
+            width: 0.375rem;
+            height: 0.375rem;
+            background: var(--primary-foreground);
+            border-radius: 50%;
+            margin: 0.25rem;
+        }
+
+        .checkbox:focus,
+        .radio:focus {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+
+        /* ===== Switch/Toggle ===== */
+        .switch {
+            position: relative;
+            width: 2.5rem;
+            height: 1.5rem;
+            background: var(--input);
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 1.25rem;
+            height: 1.25rem;
+            background: var(--foreground);
+            border-radius: 50%;
+            transition: transform 0.2s ease;
+        }
+
+        .switch input:checked + .switch-slider {
+            transform: translateX(1rem);
+        }
+
+        .switch input:checked ~ .switch {
+            background: var(--primary);
+        }
+
+        .switch:has(input:checked) {
+            background: var(--primary);
+        }
+
+        .switch:focus-within {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+
+        /* ===== Slider/Range ===== */
+        .slider {
+            width: 100%;
+            height: 0.5rem;
+            background: var(--secondary);
+            border-radius: 9999px;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            background: var(--foreground);
+            border-radius: 50%;
+            cursor: grab;
+            transition: transform 0.15s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+
+        .slider:focus {
+            outline: none;
+        }
+
+        .slider:focus::-webkit-slider-thumb {
+            box-shadow: 0 0 0 3px rgba(212, 212, 216, 0.3);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider-value {
+            min-width: 3rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        /* ===== Cards ===== */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .card-hover:hover {
+            border-color: var(--muted-foreground);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 0;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* ===== Badge ===== */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.125rem 0.625rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            transition: all 0.2s ease;
+        }
+
+        .badge-default {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .badge-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .badge-success {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(234, 179, 8, 0.2);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: rgba(220, 38, 38, 0.2);
+            color: #f87171;
+        }
+
+        .badge-info {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--info);
+        }
+
+        .badge-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--foreground);
+        }
+
+        /* ===== Alert ===== */
+        .alert {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .alert-icon {
+            flex-shrink: 0;
+            width: 1rem;
+            height: 1rem;
+            margin-top: 0.125rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-description {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .alert-info {
+            border-color: var(--info);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .alert-info .alert-icon,
+        .alert-info .alert-title {
+            color: var(--info);
+        }
+
+        .alert-success {
+            border-color: var(--success);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .alert-success .alert-icon,
+        .alert-success .alert-title {
+            color: var(--success);
+        }
+
+        .alert-warning {
+            border-color: var(--warning);
+            background: rgba(234, 179, 8, 0.1);
+        }
+
+        .alert-warning .alert-icon,
+        .alert-warning .alert-title {
+            color: var(--warning);
+        }
+
+        .alert-error {
+            border-color: #dc2626;
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .alert-error .alert-icon,
+        .alert-error .alert-title {
+            color: #f87171;
+        }
+
+        /* ===== Tabs ===== */
+        .tabs {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tabs-list {
+            display: flex;
+            background: var(--secondary);
+            border-radius: var(--radius);
+            padding: 0.25rem;
+            gap: 0.25rem;
+        }
+
+        .tab-trigger {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: transparent;
+            border: none;
+            color: var(--muted-foreground);
+            border-radius: calc(var(--radius) - 2px);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-trigger:hover {
+            color: var(--foreground);
+        }
+
+        .tab-trigger.active {
+            background: var(--background);
+            color: var(--foreground);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-content {
+            padding: 1rem 0;
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ===== Progress ===== */
+        .progress {
+            width: 100%;
+            height: 0.5rem;
+            background: var(--secondary);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar-animated {
+            background: linear-gradient(90deg, var(--primary) 0%, rgba(250, 250, 250, 0.7) 50%, var(--primary) 100%);
+            background-size: 200% 100%;
+            animation: progressShine 1.5s ease-in-out infinite;
+        }
+
+        /* ===== Skeleton ===== */
+        .skeleton {
+            background: var(--secondary);
+            border-radius: var(--radius);
+            animation: skeleton-pulse 2s ease-in-out infinite;
+        }
+
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skeleton-title {
+            height: 1.5rem;
+            width: 60%;
+            margin-bottom: 0.75rem;
+        }
+
+        .skeleton-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+        }
+
+        /* ===== Avatar ===== */
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-sm { width: 2rem; height: 2rem; font-size: 0.75rem; }
+        .avatar-lg { width: 3.5rem; height: 3.5rem; font-size: 1.125rem; }
+
+        .avatar-group {
+            display: flex;
+        }
+
+        .avatar-group .avatar {
+            margin-left: -0.5rem;
+            border: 2px solid var(--background);
+        }
+
+        .avatar-group .avatar:first-child {
+            margin-left: 0;
+        }
+
+        /* ===== Tooltip ===== */
+        .tooltip-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-0.5rem);
+            background: var(--foreground);
+            color: var(--background);
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: calc(var(--radius) - 2px);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 50;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid transparent;
+            border-top-color: var(--foreground);
+        }
+
+        .tooltip-wrapper:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-0.75rem);
+        }
+
+        /* ===== Modal/Dialog ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.2s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            padding: 1.5rem 1.5rem 0;
+        }
+
+        .modal-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .modal-description {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-top: 0.25rem;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--muted-foreground);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--accent);
+            color: var(--foreground);
+        }
+
+        /* ===== Toast ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 150;
+        }
+
+        .toast {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            min-width: 300px;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            gap: 0.75rem;
+            animation: slideInRight 0.3s ease;
+        }
+
+        .toast-success {
+            border-left: 3px solid var(--success);
+        }
+
+        .toast-error {
+            border-left: 3px solid #dc2626;
+        }
+
+        .toast-warning {
+            border-left: 3px solid var(--warning);
+        }
+
+        .toast-info {
+            border-left: 3px solid var(--info);
+        }
+
+        .toast-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .toast-message {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--muted-foreground);
+            cursor: pointer;
+            padding: 0.25rem;
+            margin-left: auto;
+            transition: color 0.2s ease;
+        }
+
+        .toast-close:hover {
+            color: var(--foreground);
+        }
+
+        /* ===== Dropdown ===== */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 0.25rem;
+            background: var(--popover);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.25rem;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-0.5rem);
+            transition: all 0.2s ease;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            color: var(--foreground);
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: calc(var(--radius) - 2px);
+            transition: background 0.15s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--accent);
+        }
+
+        .dropdown-separator {
+            height: 1px;
+            background: var(--border);
+            margin: 0.25rem 0;
+        }
+
+        /* ===== Command Input ===== */
+        .command-input {
+            display: flex;
+            align-items: center;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.75rem 1rem;
+            gap: 0.75rem;
+        }
+
+        .command-input-icon {
+            color: var(--muted-foreground);
+            flex-shrink: 0;
+        }
+
+        .command-input input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--foreground);
+            font-size: 0.875rem;
+            outline: none;
+        }
+
+        .command-input input::placeholder {
+            color: var(--muted-foreground);
+        }
+
+        .command-input kbd {
+            background: var(--secondary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-family: inherit;
+            color: var(--muted-foreground);
+        }
+
+        /* ===== Function Cards (AI Agent specific) ===== */
+        .function-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .function-card:hover {
+            border-color: var(--muted-foreground);
+            transform: translateY(-2px);
+        }
+
+        .function-card-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--secondary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .function-card-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .function-card-description {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 1rem;
+        }
+
+        .function-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .function-tag {
+            background: var(--secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: calc(var(--radius) - 2px);
+            font-size: 0.75rem;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            color: var(--muted-foreground);
+            transition: all 0.15s ease;
+        }
+
+        .function-tag:hover {
+            background: var(--accent);
+            color: var(--foreground);
+        }
+
+        /* ===== Icons (SVG) ===== */
+        .icon {
+            width: 1rem;
+            height: 1rem;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .icon-sm { width: 0.875rem; height: 0.875rem; }
+        .icon-lg { width: 1.25rem; height: 1.25rem; }
+
+        /* ===== Separator ===== */
+        .separator {
+            height: 1px;
+            background: var(--border);
+            margin: 1rem 0;
+        }
+
+        .separator-vertical {
+            width: 1px;
+            height: 100%;
+            background: var(--border);
+            margin: 0 1rem;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes skeleton-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes progressShine {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* ===== Utility Classes ===== */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-1 { gap: 0.25rem; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .w-full { width: 100%; }
+        .text-center { text-align: center; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header-badge">Design System v1.0</span>
+        <h1>Alto AI Components</h1>
+        <p>A minimal, modern design system for building AI agent interfaces. Inspired by shadcn/ui with subtle animations.</p>
+    </header>
+
+    <div class="container">
+        <!-- Typography Section -->
+        <section class="section">
+            <h2 class="section-title">Typography</h2>
+            <p class="section-description">Text styles for headings, body text, and code.</p>
+            
+            <div class="component-card typography">
+                <h1>Heading 1 - Alto AI Agent</h1>
+                <h2>Heading 2 - Functions Overview</h2>
+                <h3>Heading 3 - Email Integration</h3>
+                <h4>Heading 4 - Configuration</h4>
+                <p>Body text - The AI agent can send emails, manage Discord messages, create Trello cards, search the internet, generate images, and more.</p>
+                <p class="text-sm">Small text - Configure safety settings for each function.</p>
+                <p class="text-xs text-muted">Extra small muted text - Last updated: February 2026</p>
+                <p style="margin-top: 0.5rem;">Inline code: <code>send_email(to, subject, body)</code></p>
+            </div>
+        </section>
+
+        <!-- Buttons Section -->
+        <section class="section">
+            <h2 class="section-title">Buttons</h2>
+            <p class="section-description">Interactive button variants with hover and focus states.</p>
+            
+            <div class="component-card">
+                <div class="component-label">Variants</div>
+                <div class="component-row">
+                    <button class="btn btn-primary">Primary</button>
+                    <button class="btn btn-secondary">Secondary</button>
+                    <button class="btn btn-outline">Outline</button>
+                    <button class="btn btn-ghost">Ghost</button>
+                    <button class="btn btn-destructive">Destructive</button>
+                    <button class="btn btn-success">Success</button>
+                </div>
+            </div>
+
+            <div class="component-card mt-4">
+                <div class="component-label">Sizes</div>
+                <div class="component-row">
+                    <button class="btn btn-primary btn-sm">Small</button>
+                    <button class="btn btn-primary">Default</button>
+                    <button class="btn btn-primary btn-lg">Large</button>
+                    <button class="btn btn-outline btn-icon">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="component-card mt-4">
+                <div class="component-label">States</div>
+                <div class="component-row">
+                    <button class="btn btn-primary" disabled>Disabled</button>
+                    <button class="btn btn-primary btn-loading">Loading</button>
+                    <button class="btn btn-outline" id="btnWithIcon">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                        Send Email
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inputs Section -->
+        <section class="section">
+            <h2 class="section-title">Inputs</h2>
+            <p class="section-description">Form inputs, textareas, and selects.</p>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="form-group">
+                        <label class="label">Email Recipient</label>
+                        <input type="email" class="input" placeholder="user@example.com">
+                        <p class="form-hint">Enter the recipient's email address</p>
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="form-group">
+                        <label class="label label-required">Subject</label>
+                        <input type="text" class="input input-error" value="Invalid input">
+                        <p class="form-error">Subject is required</p>
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="form-group">
+                        <label class="label">Search Provider</label>
+                        <select class="select">
+                            <option>Google</option>
+                            <option>Bing</option>
+                            <option>DuckDuckGo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="form-group">
+                        <label class="label">Disabled Input</label>
+                        <input type="text" class="input" disabled value="Read only value">
+                    </div>
+                </div>
+            </div>
+
+            <div class="component-card mt-4">
+                <div class="form-group">
+                    <label class="label">Message Body</label>
+                    <textarea class="textarea" placeholder="Type your message here..."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checkboxes, Radios & Switches -->
+        <section class="section">
+            <h2 class="section-title">Selection Controls</h2>
+            <p class="section-description">Checkboxes, radio buttons, and toggle switches.</p>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-label">Checkboxes</div>
+                    <div class="flex flex-col gap-3">
+                        <label class="checkbox-wrapper">
+                            <input type="checkbox" class="checkbox" checked>
+                            <span>Enable email notifications</span>
+                        </label>
+                        <label class="checkbox-wrapper">
+                            <input type="checkbox" class="checkbox">
+                            <span>Include attachments</span>
+                        </label>
+                        <label class="checkbox-wrapper">
+                            <input type="checkbox" class="checkbox" disabled>
+                            <span>Disabled option</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-label">Radio Buttons</div>
+                    <div class="flex flex-col gap-3">
+                        <label class="radio-wrapper">
+                            <input type="radio" class="radio" name="priority" checked>
+                            <span>Low priority</span>
+                        </label>
+                        <label class="radio-wrapper">
+                            <input type="radio" class="radio" name="priority">
+                            <span>Medium priority</span>
+                        </label>
+                        <label class="radio-wrapper">
+                            <input type="radio" class="radio" name="priority">
+                            <span>High priority</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-label">Switches</div>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                            <span>Auto-reply enabled</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="switch-slider"></span>
+                            </label>
+                            <span>Dark mode</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                            <span>Safety filters</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sliders Section -->
+        <section class="section">
+            <h2 class="section-title">Sliders</h2>
+            <p class="section-description">Range inputs for numeric values.</p>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-label">Max Emails per Hour</div>
+                    <div class="slider-wrapper">
+                        <input type="range" class="slider" min="0" max="100" value="50" id="emailSlider">
+                        <span class="slider-value" id="emailValue">50</span>
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-label">Max Search Results</div>
+                    <div class="slider-wrapper">
+                        <input type="range" class="slider" min="1" max="50" value="10" id="searchSlider">
+                        <span class="slider-value" id="searchValue">10</span>
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-label">Image Resolution</div>
+                    <div class="slider-wrapper">
+                        <input type="range" class="slider" min="256" max="2048" step="256" value="1024" id="resolutionSlider">
+                        <span class="slider-value" id="resolutionValue">1024px</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Badges Section -->
+        <section class="section">
+            <h2 class="section-title">Badges</h2>
+            <p class="section-description">Status indicators and labels.</p>
+            
+            <div class="component-card">
+                <div class="component-row">
+                    <span class="badge badge-default">Default</span>
+                    <span class="badge badge-primary">Active</span>
+                    <span class="badge badge-success">Connected</span>
+                    <span class="badge badge-warning">Pending</span>
+                    <span class="badge badge-danger">Error</span>
+                    <span class="badge badge-info">Info</span>
+                    <span class="badge badge-outline">Outline</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alerts Section -->
+        <section class="section">
+            <h2 class="section-title">Alerts</h2>
+            <p class="section-description">Contextual feedback messages.</p>
+            
+            <div class="flex flex-col gap-3">
+                <div class="alert alert-info">
+                    <svg class="alert-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                    <div class="alert-content">
+                        <div class="alert-title">Info</div>
+                        <div class="alert-description">Your AI agent is connected and ready to process commands.</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <svg class="alert-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <div class="alert-content">
+                        <div class="alert-title">Success</div>
+                        <div class="alert-description">Email sent successfully to user@example.com</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning">
+                    <svg class="alert-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <div class="alert-content">
+                        <div class="alert-title">Warning</div>
+                        <div class="alert-description">Rate limit approaching. 45/50 emails sent this hour.</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-error">
+                    <svg class="alert-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                    <div class="alert-content">
+                        <div class="alert-title">Error</div>
+                        <div class="alert-description">Failed to connect to Discord. Please check your bot token.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cards Section -->
+        <section class="section">
+            <h2 class="section-title">Cards</h2>
+            <p class="section-description">Container components for grouping content.</p>
+            
+            <div class="component-grid">
+                <div class="card card-hover">
+                    <div class="card-header">
+                        <h3 class="card-title">📧 Email Integration</h3>
+                        <p class="card-description">Send, read, and manage emails</p>
+                    </div>
+                    <div class="card-content">
+                        <p style="font-size: 0.875rem; color: var(--muted-foreground);">Configure SMTP settings and set rate limits for automated email sending.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm">Configure</button>
+                        <button class="btn btn-outline btn-sm">View Docs</button>
+                    </div>
+                </div>
+
+                <div class="card card-hover">
+                    <div class="card-header">
+                        <h3 class="card-title">💬 Discord Bot</h3>
+                        <p class="card-description">Send messages and manage threads</p>
+                    </div>
+                    <div class="card-content">
+                        <p style="font-size: 0.875rem; color: var(--muted-foreground);">Connect your Discord bot to send messages to channels and DMs.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm">Connect</button>
+                        <button class="btn btn-outline btn-sm">Settings</button>
+                    </div>
+                </div>
+
+                <div class="card card-hover">
+                    <div class="card-header">
+                        <h3 class="card-title">🧩 Trello</h3>
+                        <p class="card-description">Create and manage cards</p>
+                    </div>
+                    <div class="card-content">
+                        <p style="font-size: 0.875rem; color: var(--muted-foreground);">Automate Trello workflows with card creation and movement.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm">Setup</button>
+                        <button class="btn btn-outline btn-sm">Boards</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs Section -->
+        <section class="section">
+            <h2 class="section-title">Tabs</h2>
+            <p class="section-description">Organize content into switchable panels.</p>
+            
+            <div class="component-card">
+                <div class="tabs">
+                    <div class="tabs-list">
+                        <button class="tab-trigger active" data-tab="functions">Functions</button>
+                        <button class="tab-trigger" data-tab="settings">Settings</button>
+                        <button class="tab-trigger" data-tab="safety">Safety</button>
+                    </div>
+                    <div class="tab-content active" id="functions">
+                        <p style="color: var(--muted-foreground); font-size: 0.875rem;">Available functions: <code>send_email()</code>, <code>read_inbox()</code>, <code>reply_email()</code>, <code>search_email()</code></p>
+                    </div>
+                    <div class="tab-content" id="settings">
+                        <p style="color: var(--muted-foreground); font-size: 0.875rem;">Configure SMTP/IMAP credentials, default signature, and rate limits.</p>
+                    </div>
+                    <div class="tab-content" id="safety">
+                        <p style="color: var(--muted-foreground); font-size: 0.875rem;">No emails to unknown domains without confirmation. Attachment virus-scan enabled.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="section">
+            <h2 class="section-title">Progress</h2>
+            <p class="section-description">Visual indicators for progress and loading states.</p>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-label">Task Progress</div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 65%"></div>
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--muted-foreground); margin-top: 0.5rem;">65% complete</p>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-label">Animated Progress</div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-animated" style="width: 80%"></div>
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--muted-foreground); margin-top: 0.5rem;">Processing...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skeleton Section -->
+        <section class="section">
+            <h2 class="section-title">Skeleton</h2>
+            <p class="section-description">Placeholder loading states.</p>
+            
+            <div class="component-card">
+                <div class="flex gap-4">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div style="flex: 1;">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text" style="width: 100%;"></div>
+                        <div class="skeleton skeleton-text" style="width: 80%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Avatars Section -->
+        <section class="section">
+            <h2 class="section-title">Avatars</h2>
+            <p class="section-description">User and entity representations.</p>
+            
+            <div class="component-card">
+                <div class="component-row">
+                    <div class="avatar avatar-sm">AI</div>
+                    <div class="avatar">AI</div>
+                    <div class="avatar avatar-lg">AI</div>
+                    <div class="avatar-group">
+                        <div class="avatar">A</div>
+                        <div class="avatar">B</div>
+                        <div class="avatar">C</div>
+                        <div class="avatar">+3</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tooltips Section -->
+        <section class="section">
+            <h2 class="section-title">Tooltips</h2>
+            <p class="section-description">Hover to reveal additional information.</p>
+            
+            <div class="component-card">
+                <div class="component-row">
+                    <span class="tooltip-wrapper">
+                        <button class="btn btn-outline">Hover me</button>
+                        <span class="tooltip">This is a tooltip</span>
+                    </span>
+                    <span class="tooltip-wrapper">
+                        <button class="btn btn-secondary">Send Email</button>
+                        <span class="tooltip">send_email(to, subject, body)</span>
+                    </span>
+                    <span class="tooltip-wrapper">
+                        <span class="badge badge-info">AI Agent</span>
+                        <span class="tooltip">Alto AI v1.0</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dropdown Section -->
+        <section class="section">
+            <h2 class="section-title">Dropdown</h2>
+            <p class="section-description">Contextual menu options.</p>
+            
+            <div class="component-card">
+                <div class="dropdown" id="dropdown1">
+                    <button class="btn btn-outline" onclick="toggleDropdown('dropdown1')">
+                        Actions
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button class="dropdown-item">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                            Send Email
+                        </button>
+                        <button class="dropdown-item">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            Discord Message
+                        </button>
+                        <button class="dropdown-item">
+                            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            Create Trello Card
+                        </button>
+                        <div class="dropdown-separator"></div>
+                        <button class="dropdown-item" style="color: #f87171;">
+                            <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Command Input Section -->
+        <section class="section">
+            <h2 class="section-title">Command Input</h2>
+            <p class="section-description">Search and command interface.</p>
+            
+            <div class="component-card">
+                <div class="command-input">
+                    <svg class="command-input-icon icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    <input type="text" placeholder="Search functions or type a command...">
+                    <kbd>⌘K</kbd>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal Section -->
+        <section class="section">
+            <h2 class="section-title">Modal / Dialog</h2>
+            <p class="section-description">Overlay dialogs for focused interactions.</p>
+            
+            <div class="component-card">
+                <button class="btn btn-primary" onclick="openModal()">Open Modal</button>
+            </div>
+        </section>
+
+        <!-- Toast Section -->
+        <section class="section">
+            <h2 class="section-title">Toast Notifications</h2>
+            <p class="section-description">Brief notification messages.</p>
+            
+            <div class="component-card">
+                <div class="component-row">
+                    <button class="btn btn-success" onclick="showToast('success', 'Success', 'Email sent successfully!')">Success Toast</button>
+                    <button class="btn btn-destructive" onclick="showToast('error', 'Error', 'Failed to send message.')">Error Toast</button>
+                    <button class="btn btn-secondary" onclick="showToast('info', 'Info', 'New update available.')">Info Toast</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Agent Function Cards -->
+        <section class="section">
+            <h2 class="section-title">AI Agent Functions</h2>
+            <p class="section-description">Available functions for the Alto AI agent.</p>
+            
+            <div class="component-grid">
+                <div class="function-card">
+                    <div class="function-card-icon">📧</div>
+                    <h3 class="function-card-title">Email</h3>
+                    <p class="function-card-description">Send, read, and manage email communications.</p>
+                    <div class="function-list">
+                        <span class="function-tag">send_email()</span>
+                        <span class="function-tag">read_inbox()</span>
+                        <span class="function-tag">reply_email()</span>
+                        <span class="function-tag">search_email()</span>
+                    </div>
+                </div>
+
+                <div class="function-card">
+                    <div class="function-card-icon">💬</div>
+                    <h3 class="function-card-title">Discord</h3>
+                    <p class="function-card-description">Send messages and manage Discord servers.</p>
+                    <div class="function-list">
+                        <span class="function-tag">send_dc()</span>
+                        <span class="function-tag">reply_dc()</span>
+                        <span class="function-tag">read_dc()</span>
+                        <span class="function-tag">create_thread()</span>
+                    </div>
+                </div>
+
+                <div class="function-card">
+                    <div class="function-card-icon">🧩</div>
+                    <h3 class="function-card-title">Trello</h3>
+                    <p class="function-card-description">Create cards and manage boards.</p>
+                    <div class="function-list">
+                        <span class="function-tag">create_card()</span>
+                        <span class="function-tag">move_card()</span>
+                        <span class="function-tag">add_comment()</span>
+                        <span class="function-tag">read_board()</span>
+                    </div>
+                </div>
+
+                <div class="function-card">
+                    <div class="function-card-icon">🌐</div>
+                    <h3 class="function-card-title">Web Search</h3>
+                    <p class="function-card-description">Search the internet and scrape pages.</p>
+                    <div class="function-list">
+                        <span class="function-tag">web_search()</span>
+                        <span class="function-tag">scrape_page()</span>
+                        <span class="function-tag">fact_check()</span>
+                    </div>
+                </div>
+
+                <div class="function-card">
+                    <div class="function-card-icon">🎨</div>
+                    <h3 class="function-card-title">Image Generation</h3>
+                    <p class="function-card-description">Generate and edit images with AI.</p>
+                    <div class="function-list">
+                        <span class="function-tag">generate_image()</span>
+                        <span class="function-tag">edit_image()</span>
+                        <span class="function-tag">resize_image()</span>
+                    </div>
+                </div>
+
+                <div class="function-card">
+                    <div class="function-card-icon">📁</div>
+                    <h3 class="function-card-title">File System</h3>
+                    <p class="function-card-description">Read and write files in sandbox.</p>
+                    <div class="function-list">
+                        <span class="function-tag">read_file()</span>
+                        <span class="function-tag">write_file()</span>
+                        <span class="function-tag">list_folder()</span>
+                        <span class="function-tag">search_files()</span>
+                    </div>
+                </div>
+
+                <div class="function-card">
+                    <div class="function-card-icon">🧑‍💻</div>
+                    <h3 class="function-card-title">GitHub</h3>
+                    <p class="function-card-description">Read repositories and issues.</p>
+                    <div class="function-list">
+                        <span class="function-tag">read_repo()</span>
+                        <span class="function-tag">read_issues()</span>
+                        <span class="function-tag">summarize_pr()</span>
+                        <span class="function-tag">search_code()</span>
+                    </div>
+                </div>
+
+                <div class="function-card">
+                    <div class="function-card-icon">🧠</div>
+                    <h3 class="function-card-title">Summarize</h3>
+                    <p class="function-card-description">Summarize text, repos, and meetings.</p>
+                    <div class="function-list">
+                        <span class="function-tag">summarize_text()</span>
+                        <span class="function-tag">summarize_repo()</span>
+                        <span class="function-tag">daily_summary()</span>
+                        <span class="function-tag">meeting_summary()</span>
+                    </div>
+                </div>
+
+                <div class="function-card">
+                    <div class="function-card-icon">🔐</div>
+                    <h3 class="function-card-title">Accounts</h3>
+                    <p class="function-card-description">Create and manage accounts (requires approval).</p>
+                    <div class="function-list">
+                        <span class="function-tag">create_gmail()</span>
+                        <span class="function-tag">create_discord()</span>
+                        <span class="function-tag">create_github()</span>
+                        <span class="function-tag">create_trello()</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Action</h3>
+                <p class="modal-description">Are you sure you want to send this email?</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="label">Recipient</label>
+                    <input type="email" class="input" value="user@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="label">Subject</label>
+                    <input type="text" class="input" value="Hello from Alto AI">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="closeModal()">Send Email</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Slider value updates
+        document.getElementById('emailSlider').addEventListener('input', function() {
+            document.getElementById('emailValue').textContent = this.value;
+        });
+
+        document.getElementById('searchSlider').addEventListener('input', function() {
+            document.getElementById('searchValue').textContent = this.value;
+        });
+
+        document.getElementById('resolutionSlider').addEventListener('input', function() {
+            document.getElementById('resolutionValue').textContent = this.value + 'px';
+        });
+
+        // Tabs functionality
+        document.querySelectorAll('.tab-trigger').forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                const tabsContainer = this.closest('.tabs');
+                const tabId = this.dataset.tab;
+
+                // Remove active from all triggers and contents
+                tabsContainer.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+                tabsContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                // Add active to clicked trigger and corresponding content
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Dropdown functionality
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+
+        // Modal functionality
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (!event || event.target === document.getElementById('modalOverlay')) {
+                document.getElementById('modalOverlay').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Toast functionality
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div style="flex: 1;">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            `;
+            container.appendChild(toast);
+
+            // Auto remove after 4 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                    position: absolute;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    width: 100px;
+                    height: 100px;
+                    left: ${x - 50}px;
+                    top: ${y - 50}px;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Animate cards on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.component-card, .card, .function-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
